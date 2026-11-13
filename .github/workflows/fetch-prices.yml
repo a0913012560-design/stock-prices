@@ -1,0 +1,39 @@
+name: fetch-prices
+on:
+  schedule:
+    # UTC 週一~週五 23:17 = 台灣時間週二~週六 07:17（抓前一個美股交易日的收盤價）
+    - cron: "17 23 * * 1-5"
+  workflow_dispatch: {}   # 也可以到 Actions 頁面手動按 Run workflow
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-prices
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch prices from Twelve Data
+        id: fetch
+        env:
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
+        run: python fetch_prices.py
+        continue-on-error: true
+      - name: Commit latest.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git diff --cached --quiet || git commit -m "prices $(date -u +%Y-%m-%d)"
+          git push
+      - name: Fail the run if data incomplete
+        if: steps.fetch.outcome == 'failure'
+        run: exit 1
