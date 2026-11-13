@@ -1,0 +1,40 @@
+# 婉甄 FCN 追蹤標的（一行一檔）。井字號開頭的行不會讀。
+# FCN／ELI 連結標的
+AAPL
+ALAB
+AMAT
+AMD
+AMZN
+ARM
+ASML
+ASX
+AVGO
+CRWD
+CRWV
+ENTG
+GLW
+GOOG
+INTC
+KLAC
+META
+MRVL
+MSFT
+MU
+NVDA
+PLTR
+SOXL
+SOXX
+TSLA
+TSM
+# 換股持股
+SMCI
+COIN
+# 風險評估面板的分散候選
+JPM
+BRK.B
+LLY
+COST
+QCOM
+ORCL
+SPY
+QQQ
