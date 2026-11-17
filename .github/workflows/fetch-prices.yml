@@ -2,7 +2,9 @@ name: fetch-prices
 on:
   schedule:
     # UTC 週一~週五 23:17 = 台灣時間週二~週六 07:17（抓前一個美股交易日的收盤價）
-    - cron: "17 23 * * 1-5"
+       # 台灣時間週二~週六 05:23（主要）與 06:23（備援），抓前一個美股交易日的收盤價
+    - cron: "23 21 * * 1-5"
+    - cron: "23 22 * * 1-5"
   workflow_dispatch: {}   # 也可以到 Actions 頁面手動按 Run workflow
 
 permissions:
